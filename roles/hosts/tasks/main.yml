@@ -1,0 +1,12 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Update the /etc/hosts file with host servers
+      become: yes
+      become_user: root
+      blockinfile:
+        path: "/etc/hosts"
+        block: |
+          {{ hostvars[item]["ansible_host"] }} {{ item }}
+        marker: "## {mark} {{ item }} added by ansible"
+      with_items: "{{ hostvars }}"

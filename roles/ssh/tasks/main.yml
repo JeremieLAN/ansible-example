@@ -1,0 +1,11 @@
+- name: authorize password authentication for ansible group if not prod
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      Match Group ansible
+            AllowUsers *
+            PasswordAuthentication yes
+    marker: "## {mark} group added by ansible"
+  when: "'prod' not in group_names"
+  notify: restart ssh
+  tags: ssh

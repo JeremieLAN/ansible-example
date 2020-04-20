@@ -1,0 +1,12 @@
+- name: Installations des paquets utiles
+  become: yes
+  apt: name={{ packages }} state=latest update_cache=yes
+  vars:
+     packages:
+      - munin-node
+      - munin-plugins-extra
+      - munin
+      - ncdu
+      - curl
+  tags: tools
+  ignore_errors: "{{ ansible_check_mode }}"
